@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "culturekit"
+version = "0.0.1"
+description = "A toolkit for evaluating the culture of MLX large language models (LLMs) on the CD Eval benchmark."
+authors = ["devanshg03 <devansh@connect.hku.hk>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mlx = "0.22.0"
+mlx-lm = "0.21.5"
+torch = "^2.5.1"
+tensorflow = "^2.18.0"
+numpy = "<2.0.0"
+seaborn = "^0.13.2"
+datasets = "^3.2.0"
+jupyter = "^1.1.1"
+ipywidgets = "^8.1.5"
+matplotlib = "^3.10.0"
+azure-ai-ml = "^1.24.0"
+azure-identity = "^1.19.0"
+tqdm = "^4.67.1"
+azure-ai-inference = "^1.0.0b8"
+python-dotenv = "^1.0.1"
+typer = "^0.15.2"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
