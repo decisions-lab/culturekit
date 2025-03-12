@@ -14,7 +14,7 @@ app = typer.Typer()
 
 
 @app.command()
-def eval(model: str = "decisionslab/Dlab-852-8B-4bit", eval: str = "cdeval") -> None:
+def eval(model: str, eval: str = "cdeval") -> None:
     """
     Runs an evaluation by loading a model, iterating through a dataset,
     generating responses using prompt templates, and writing the results to a file.
@@ -73,15 +73,15 @@ def eval(model: str = "decisionslab/Dlab-852-8B-4bit", eval: str = "cdeval") -> 
 
 @app.command()
 def score(
-    responses_path: str = "../responses/Phi-3.5-mini-instruct-4bit-HK/responses_cleaned.json",
-    output_path: str = "../results.json",
+    responses_path: str = "../data/responses.jsonl",
+    output_path: str = "../data/results.json",
 ):
     """
     Score model responses across all cultural dimensions, and write the results to a file.
 
     Args:
         responses_path: Path to JSON file containing model responses
-        output_path: Path to save scoring results
+        output_path: Path to save scoring results in JSON format
     """
     score_model(responses_path, output_path)
 
