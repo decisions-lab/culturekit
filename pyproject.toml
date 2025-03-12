@@ -2,9 +2,22 @@
 name = "culturekit"
 version = "0.0.1"
 description = "A toolkit for evaluating the culture of MLX large language models (LLMs) on the CD Eval benchmark."
-authors = ["devanshg03 <devansh@connect.hku.hk>"]
+authors = ["devanshg03 <devansh@decisionslab.io>"]
 readme = "README.md"
-package-mode = false
+license = "MIT"
+repository = "https://github.com/decisions-lab/culturekit"
+homepage = "https://github.com/decisions-lab/culturekit"
+documentation = "https://github.com/decisions-lab/culturekit"
+keywords = ["mlx", "llm", "evaluation", "cultural-bias", "machine-learning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+packages = [{include = "culturekit", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -24,11 +37,39 @@ tqdm = "^4.67.1"
 azure-ai-inference = "^1.0.0b8"
 python-dotenv = "^1.0.1"
 typer = "^0.15.2"
-
+pytest = "^8.3.5"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.5"
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+black = "^24.2.0"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+mypy = "^1.8.0"
+
+[tool.poetry.scripts]
+culturekit = "culturekit.cli:app"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
