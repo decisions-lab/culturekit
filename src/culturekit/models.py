@@ -8,20 +8,27 @@ from dotenv import load_dotenv
 
 
 def load_mlx_model(model_name: str, tokenizer_config: dict = None) -> tuple[Any, Any]:
+    """
+    Load an MLX model using the MLX interface.
+
+    Args:
+        model_name: The name of the MLX model to load.
+        tokenizer_config: Configuration for the tokenizer.
+
+    Returns:
+        A tuple containing the model and tokenizer.
+    """
     model, tokenizer = load(model_name, tokenizer_config=tokenizer_config)
     return model, tokenizer
 
 
-def load_azure_model(endpoint: str):
-    load_dotenv()
-    client = ChatCompletionsClient(
-        endpoint=endpoint,
-        credential=AzureKeyCredential(os.getenv("AZURE_API_KEY")),
-    )
-    return client
-
-
 def load_azure_foundry_model():
+    """
+    Load an Azure Foundry model using the Azure interface.
+
+    Returns:
+        Configured AzureChatOpenAI model
+    """
     load_dotenv()
     client = ChatCompletionsClient(
         endpoint=(os.getenv("AZURE_FOUNDRY_ENDPOINT")),

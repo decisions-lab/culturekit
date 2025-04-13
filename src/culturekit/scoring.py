@@ -12,6 +12,23 @@ R = 1
 
 
 def run_model(dim, dimensions, prompts, responses, w1, w2, w3, options_1, options_2):
+    """
+    Run the model for a specific dimension.
+
+    Args:
+        dim: The dimension to run the model for.
+        dimensions: The dimensions to run the model for.
+        prompts: The prompts to run the model for.
+        responses: The responses to run the model for.
+        w1: The weight for the first option.
+        w2: The weight for the second option.
+        w3: The weight for the third option.
+        options_1: The first option.
+        options_2: The second option.
+
+    Returns:
+        The P_M scores for the dimension.
+    """
     all_P_M = []
     for dimension, prompt, response, o_1, o_2 in zip(
         dimensions, prompts, responses, options_1, options_2
@@ -61,9 +78,16 @@ def run_model(dim, dimensions, prompts, responses, w1, w2, w3, options_1, option
 
 
 def score_model(
-    responses_path: str = "../Phi-3.5-mini-instruct-4bit-HK/responses_cleaned.json",
-    output_path: str = "../results.json",
+    responses_path: str = "data/responses.json",
+    output_path: str = "data/results.json",
 ):
+    """
+    Score the model for a specific dimension.
+
+    Args:
+        responses_path: The path to the responses to score.
+        output_path: The path to save the results.
+    """
     data = load_cdeval_dataset()
     dimensions = []
     domains = []
