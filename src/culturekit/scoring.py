@@ -1,9 +1,11 @@
 import json
 import math
 import difflib
+import re
 
 from culturekit.prompt_templates import prompt_templates
 from culturekit.dataset import load_cdeval_dataset
+from culturekit.cleaning import clean_responses
 
 N = -1000
 R = 1
@@ -92,8 +94,50 @@ def score_model(
         prompts.append(prompt_list)
 
     print("[INFO] Loading model responses")
+
+    # Check if the file is JSON or JSONL format
     with open(responses_path, "r") as file:
-        responses = json.load(file)
+        first_line = file.readline().strip()
+        file.seek(0)  # Reset file pointer to beginning
+
+        is_jsonl = first_line.startswith("{") and "}" in first_line
+
+        if is_jsonl:
+            print("[INFO] Detected JSONL format")
+            # Process as JSONL (line by line JSON)
+            model_responses = []
+            response_map = {}  # Map of index to response for ordering
+
+            for line in file:
+                try:
+                    json_obj = json.loads(line.strip())
+                    if "index" in json_obj and "data" in json_obj:
+                        response_map[json_obj["index"]] = json_obj["data"]
+                    else:
+                        # Handle old format without index
+                        model_responses.append(json_obj.get("data", json_obj))
+                except json.JSONDecodeError as e:
+                    print(f"[WARNING] Skipping invalid JSON line: {e}")
+
+            # If we have indexed responses, sort them by index
+            if response_map:
+                for idx in sorted(response_map.keys()):
+                    model_responses.append(response_map[idx])
+
+            responses = model_responses
+        else:
+            # Process as regular JSON
+            responses = json.load(file)
+
+    # Clean and normalize responses for consistent scoring
+    print("[INFO] Cleaning and normalizing responses")
+    cleaned_responses, invalid_count = clean_responses(responses)
+    print(
+        f"[INFO] Cleaned {len(cleaned_responses)} response sets, {invalid_count} invalid responses skipped"
+    )
+
+    # Use cleaned responses for scoring
+    responses = cleaned_responses
 
     ## Ut calculation
     u1 = 0
@@ -102,8 +146,12 @@ def score_model(
 
     responses_count = 0
 
-    # Process single model responses
+    # Process model responses
     for response in responses:
+        # Skip invalid or empty responses
+        if not response or len(response) < 6:
+            continue
+
         r1 = response[0]
         r2 = response[1]
         r3 = response[2]
@@ -128,11 +176,15 @@ def score_model(
     # Ensure responses list is populated to avoid division by zero
     print("[INFO] Valid responses found: ", responses_count)
     print("[INFO] Total responses found: ", len(responses))
-    print("[INFO] Accuracy: ", round(responses_count / len(responses), 4) * 100, "%")
+    print(
+        "[INFO] Accuracy: ",
+        round(responses_count / len(responses), 4) * 100 if len(responses) > 0 else 0,
+        "%",
+    )
 
     if responses_count == 0:
         raise ValueError(
-            "The responses list is empty, cannot perform division by zero."
+            "The responses list is empty or all invalid, cannot perform division by zero."
         )
 
     Ut = u1 + u2 + u3
