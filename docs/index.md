@@ -1,11 +1,19 @@
 # CultureKit Documentation
 
+> **Beta Status**: CultureKit is currently in beta testing. Features, APIs, and documentation may change without notice.
+
 Welcome to the CultureKit documentation. This toolkit helps you evaluate the cultural dimensions of MLX large language models (LLMs) on the CD Eval benchmark.
 
 ## Getting Started
 
 - [Installation](../README.md#installation) - How to install CultureKit
 - [Quick Start](../README.md#quick-start) - Quick start guide
+- [Environment Setup](environment_setup.md) - How to set up your environment
+
+## Model Support
+
+- [Model Formats and Configurations](model_formats.md) - Detailed information about supported model formats
+- [Model Evaluation](model_eval.md) - Guide for evaluating models
 
 ## Key Concepts
 
@@ -19,13 +27,13 @@ The CD Eval benchmark assesses language models across various cultural dimension
 - Religious and philosophical perspectives
 - Historical and geopolitical contexts
 
-### MLX Integration
+### Supported Model Types
 
-CultureKit is designed to work specifically with models built on Apple's MLX framework, providing:
+CultureKit supports multiple model types:
 
-- Efficient evaluation on Apple Silicon
-- Optimized memory usage
-- Seamless integration with MLX model formats
+- **MLX Models**: Optimized for Apple Silicon hardware
+- **Azure OpenAI Models**: Models hosted on Azure OpenAI service
+- **Azure Foundry Models**: Custom models on Azure AI Foundry service
 
 ### Prompt Templates
 
