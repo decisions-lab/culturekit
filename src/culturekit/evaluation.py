@@ -21,6 +21,11 @@ def model_responses(model, tokenizer, prompts):
 
     for prompt in prompts:
         try:
+            if tokenizer.chat_template is not None:
+                messages = [{"role": "user", "content": prompt}]
+                prompt = tokenizer.apply_chat_template(
+                    messages, add_generation_prompt=True
+                )
             r = generate(model, tokenizer, prompt=prompt, verbose=False, max_tokens=100)
             responses.append(r)
         except Exception as e:
