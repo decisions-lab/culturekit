@@ -26,21 +26,61 @@ jobs:
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project true
 
-      - name: Update dependencies for non-macOS
+      - name: Simplify dependencies for CI/CD
         run: |
-          # Remove mlx dependency for non-macOS systems
-          sed -i '/mlx =/d' pyproject.toml
-          sed -i '/mlx-lm =/d' pyproject.toml
+          # Create a simplified pyproject.toml for CI/CD
+          cat > pyproject.toml.ci << EOF
+          [tool.poetry]
+          name = "culturekit"
+          version = "0.0.1"
+          description = "A toolkit for evaluating the culture of MLX large language models (LLMs) on the CD Eval benchmark."
+          authors = ["devanshg03 <devansh@decisionslab.io>"]
+          readme = "README.md"
+          license = "MIT"
+          repository = "https://github.com/decisions-lab/culturekit"
+          homepage = "https://github.com/decisions-lab/culturekit"
+          documentation = "https://github.com/decisions-lab/culturekit"
+          keywords = ["mlx", "llm", "evaluation", "cultural-bias", "machine-learning"]
+          classifiers = [
+              "Development Status :: 3 - Alpha",
+              "Intended Audience :: Science/Research",
+              "License :: OSI Approved :: MIT License",
+              "Programming Language :: Python :: 3",
+              "Programming Language :: Python :: 3.11",
+              "Topic :: Scientific/Engineering :: Artificial Intelligence",
+          ]
+          packages = [{include = "culturekit", from = "src"}]
+
+          [tool.poetry.dependencies]
+          python = "^3.11"
+          typer = "^0.15.2"
+          python-dotenv = "^1.0.1"
+          tqdm = "^4.67.1"
+
+          [build-system]
+          requires = ["poetry-core"]
+          build-backend = "poetry.core.masonry.api"
+          EOF
+
+          # Backup the original pyproject.toml
+          cp pyproject.toml pyproject.toml.bak
+          # Use the simplified version
+          cp pyproject.toml.ci pyproject.toml
           # Update lock file
           poetry lock --no-update
 
       - name: Install dependencies
         run: |
-          poetry install --without dev
+          poetry install
 
       - name: Build package
         run: |
           poetry build
+
+      - name: Restore original pyproject.toml
+        run: |
+          # Ensure the original dependencies are in the built package
+          cp pyproject.toml.bak pyproject.toml
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
