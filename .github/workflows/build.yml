@@ -27,6 +27,14 @@ jobs:
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project true
 
+      - name: Update dependencies for non-macOS
+        run: |
+          # Remove mlx dependency for non-macOS systems
+          sed -i '/mlx =/d' pyproject.toml
+          sed -i '/mlx-lm =/d' pyproject.toml
+          # Update lock file
+          poetry lock --no-update
+
       - name: Install dependencies
         run: |
           poetry install --without dev
