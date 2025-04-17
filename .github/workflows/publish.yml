@@ -21,9 +21,14 @@ jobs:
         with:
           version: 1.6.1
 
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
+
       - name: Install dependencies
         run: |
-          poetry install
+          poetry install --without dev
 
       - name: Build package
         run: |

@@ -4,11 +4,11 @@
     <img src="https://img.shields.io/badge/python-3.11+-black.svg" alt="Python 3.11+"/>
     <img src="https://img.shields.io/badge/packaging-poetry-black.svg" alt="Poetry"/>
     <img src="https://img.shields.io/badge/License-MIT-black.svg" alt="License: MIT"/>
-    <img src="https://img.shields.io/badge/status-beta-black.svg" alt="Status: Beta"/>
+    <img src="https://img.shields.io/badge/status-alpha-black.svg" alt="Status: Alpha"/>
     <a href="https://pypi.org/project/culturekit/"><img src="https://img.shields.io/pypi/v/culturekit.svg" alt="PyPI Version"/></a>
 </p>
 
-> **Note**: This repository is currently in beta testing. Features and APIs may change without notice.
+> **Note**: This repository is currently in alpha testing. Features and APIs may change without notice.
 
 A toolkit for evaluating the culture of Large Language Models (LLMs) on the CD Eval benchmark. Supports MLX, Azure OpenAI, and Azure Foundry models.
 
@@ -30,6 +30,8 @@ CultureKit provides tools and utilities for evaluating how cultural biases and p
 ```bash
 pip install culturekit
 ```
+
+Note: MLX dependencies are primarily designed for macOS/Apple Silicon. On other platforms, MLX functionality will be disabled, but Azure-based models will still work.
 
 ### Using Poetry
 
@@ -60,7 +62,7 @@ CultureKit comes with a CLI for easy model evaluation:
 ### Evaluating Models
 
 ```bash
-# Run evaluation on an MLX model
+# Run evaluation on an MLX model (macOS only)
 python -m culturekit eval --model "mlx-community/Qwen1.5-0.5B-MLX" --model_type mlx
 
 # Run evaluation on an Azure OpenAI model
@@ -121,8 +123,8 @@ The toolkit uses the CD Eval benchmark for evaluating cultural dimensions in LLM
 git clone https://github.com/decisions-lab/culturekit.git
 cd culturekit
 
-# Install development dependencies
-poetry install --with dev
+# Install dependencies
+poetry install
 ```
 
 ## Contributing
