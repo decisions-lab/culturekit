@@ -1,6 +1,5 @@
 import os
 import json
-import math
 import typer
 from tqdm import tqdm
 from enum import Enum
@@ -35,7 +34,6 @@ def eval(
     model_type: ModelType = ModelType.MLX,
     eval: str = "cdeval",
     parallel_workers: int = 4,
-    azure_endpoint: Optional[str] = None,
     azure_deployment: Optional[str] = None,
 ) -> None:
     """

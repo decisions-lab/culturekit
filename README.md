@@ -5,6 +5,7 @@
     <img src="https://img.shields.io/badge/packaging-poetry-black.svg" alt="Poetry"/>
     <img src="https://img.shields.io/badge/License-MIT-black.svg" alt="License: MIT"/>
     <img src="https://img.shields.io/badge/status-beta-black.svg" alt="Status: Beta"/>
+    <a href="https://pypi.org/project/culturekit/"><img src="https://img.shields.io/pypi/v/culturekit.svg" alt="PyPI Version"/></a>
 </p>
 
 > **Note**: This repository is currently in beta testing. Features and APIs may change without notice.
@@ -24,6 +25,12 @@ CultureKit provides tools and utilities for evaluating how cultural biases and p
 
 ## Installation
 
+### From PyPI
+
+```bash
+pip install culturekit
+```
+
 ### Using Poetry
 
 ```bash
@@ -35,7 +42,7 @@ cd culturekit
 poetry install
 ```
 
-### Using pip
+### Using pip from source
 
 ```bash
 # Clone the repository
