@@ -38,6 +38,7 @@ azure-ai-inference = "^1.0.0b8"
 python-dotenv = "^1.0.1"
 typer = "^0.15.2"
 pytest = "^8.3.5"
+langchain-openai = "^0.3.13"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.5"
